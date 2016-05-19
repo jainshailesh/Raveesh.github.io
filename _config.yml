@@ -1,2 +1,3 @@
 name: Raveesh Sharma, Random Developer
 markdown: kramdown
+permalink: /blog/:year/:month/:day/:title
