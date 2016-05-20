@@ -44,18 +44,18 @@ and the server (the node in this case) responds with a response code and a resou
 
 ### CoAP Messaging Model
 
-* The abstract Layering looks as follows : 
-                        +----------------------+
-                        |      Application     |
-                        +----------------------+
-                        +----------------------+  \
-                        |  Requests/Responses  |  |
-                        |----------------------|  | CoAP
-                        |       Messages       |  |
-                        +----------------------+  /
-                        +----------------------+
-                        |          UDP         |
-                        +----------------------+
+* The abstract Layering looks as follows : <br>
++----------------------+<br>
+|      Application     |<br>
++----------------------+<br>
++----------------------+  \ <br>
+|  Requests/Responses  |  |<br>
+|----------------------|  | CoAP<br>
+|       Messages       |  |<br>
++----------------------+  /<br>
++----------------------+<br>
+|          UDP         |<br>
++----------------------+<br>
 * Fixed length Binary header (4 bytes)
 * Message may ot may not contain a message ID ( alocated 2 bytes )
 * Reliability of transmission is ensured by marking a message as Confirmable **(CON)** (which is retransmitted using default timeout and retries in case of failure) and receiving an ACK from the endpoint (EP).(if EP isunable to process , message is responsed with RESET **(RST)**)
