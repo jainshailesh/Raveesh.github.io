@@ -12,6 +12,7 @@ date: 2016-05-19
     * Contains concpets of Web URI's and Internet media types
 
 ### Goals and features of CoAP
+
 * CoAP CoRE(Constrained RESTful Environments) aims to realize rest architectecture for constrained nodes where constrained nodes are typically low in memory (8 bit micro controllers) and network (e.g 6LoWPAN - low Power Wireless personal area Networks)
 * Design a generic web protocol fulfilling  M2M requirements(dealing with message delivery to devices, scalability, failure handling etc Look at M2M requirments [here](http://www.etsi.org/deliver/etsi_ts/102600_102699/102689/01.01.01_60/ts_102689v010101p.pdf) ) in this contrained environment. 
 * UDP binding with optional reliability supporting unicast and multicast
@@ -36,16 +37,17 @@ date: 2016-05-19
 
 ### About CoAP
 
-A CoAP request is similar to a HTTP request where a client sends a request to a resource (which resides on the node / device)
+* A CoAP request is similar to a HTTP request where a client sends a request to a resource (which resides on the node / device)
 and the server (the node in this case) responds with a response code and a resource representation. Coap deals with message interchange asynchronously over UDP. It classifies messages into 4 categories <br>
-1. Confirmable<br>
-2. Non-confirmable<br>
-3. Acknowledge<br>
-4. Reset<br>
+   1. Confirmable<br>
+   2. Non-confirmable<br>
+   3. Acknowledge<br>
+   4. Reset<br>
 
 ### CoAP Messaging Model
 
-* The abstract Layering looks as follows : <br>
+* The abstract Layering looks as follows : 
+<br>
 +----------------------+ <br>
 |      Application     | <br>
 +----------------------+ <br>
@@ -62,6 +64,7 @@ and the server (the node in this case) responds with a response code and a resou
 * Messages not requiring reliable transmissions can be sent as Non-Confirmable **(NON)** message 
 
 ### CoAP request/response model 
+
 * The request is carried as either a **CON** message or a **NON** message. 
 * The response to the **CON** message is received in the ACK itself. This is also known as ** piggybacked response**
 * The request is sent with a message id, a token and the method with the resource name . 
@@ -69,3 +72,18 @@ and the server (the node in this case) responds with a response code and a resou
 * If server is unable to respond, it sends an empty ACK response.When the response is ready, server sends it as a **CON** message and the client has to respond with an ACK. This is known as a **separate response**
 * If the request is sent as a **NON** message the server can respond back as a non-confirmable message. 
 * CoAP makes use of **GET**, **PUT**,**POST** and **DELETE** methods to interact with the resources. 
+
+### CoAP Message Format
+
+* CoAP could be used over DTLS, TCP, SMS or SCTP
+* CoAP messages are encoded in a simple binary format. It consists of the following 
+   1. message header  => 4 bytes
+   2. token value     => 0-8 bytes 
+   3. coap options    => 0 or more (Type length Value {TLV}) format
+   4. payload
+* The header comprises of 
+   1. Version   => 2 bit unsigned (uknown version numbers must be filtered out)
+   2. Type      => 2 bit unsigned (0 - Confirmable, 1 - Non Confirmable, 2 - Acknowledge, 3 - Reset)
+   3. Token len => 4 bit unsigned 
+   4. Code      => 8 bit unsigned (0 - request, 2.xx success, 4.xx client error, 5.xx server error)
+   5. MessageID => 16 bit unsigned (detects message duplication)
