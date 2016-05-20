@@ -46,10 +46,10 @@ and the server (the node in this case) responds with a response code and a resou
 
 ### CoAP Messaging Model
 
-* The abstract Layering looks as follows : 
+
 <br>
 {:.assets}
-![CoAP Abstract Layering](/assets/coap-abstract-layering.png)
+![CoAP Abstract Layering](/assets/coap-abstract-layering.png "Fig 1 :CoAP Abstract Layering")
 <br>
 
 * Fixed length Binary header (4 bytes)
