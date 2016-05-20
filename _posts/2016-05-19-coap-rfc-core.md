@@ -48,6 +48,7 @@ and the server (the node in this case) responds with a response code and a resou
 
 * The abstract Layering looks as follows : 
 <br>
+{:.assets}
 ![CoAP Abstract Layering](/assets/coap-abstract-layering.png)
 <br>
 * Fixed length Binary header (4 bytes)
