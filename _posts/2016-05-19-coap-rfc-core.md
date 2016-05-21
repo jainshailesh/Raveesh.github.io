@@ -100,14 +100,12 @@ and the server (the node in this case) responds with a response code and a resou
 * A good choice is 1152 bytes for the message size  and 1024 as the payload size.
 *  CoAP places the onus of congestion control mostly on the clients.  However, clients may malfunction or actually be attackers.Hence a server SHOULD implement some rate limiting for its response transmission based on reasonable assumptions about application requirements.
 * Transmission parameters include:
-      |  name            | default Value |
-      |------------------|---------------|
-      |ACK_TIMEOUT       |2 seconds      |
-      |ACK_RANDOM_FACTOR |1.5            |
-      |MAX_RETRANSMIT    |4              |
-      |NSTART            |1              |
-      |DEFAULT_LIESURE   |5 seconds      |
-      |PROBING_RATE      |1 byte/sec     |
+ACK_TIMEOUT       =>   2 seconds 
+ACK_RANDOM_FACTOR =>   1.5 
+MAX_RETRANSMIT    =>   4              
+NSTART            =>   1 
+DEFAULT_LIESURE   =>   5 seconds 
+PROBING_RATE      =>   1 byte/sec
 
 * MAX_TRANSMIT_SPAN = ACK_TIMEOUT * ((2 ** MAX_RETRANSMIT) - 1) * ACK_RANDOM_FACTOR (= 45 based on above values)
 * MAX_TRANSMIT_WAIT =  ACK_TIMEOUT * ((2 ** (MAX_RETRANSMIT + 1)) - 1) * ACK_RANDOM_FACTOR (=93 based on above values)
