@@ -81,3 +81,39 @@ and the server (the node in this case) responds with a response code and a resou
    3. Token len => 4 bit unsigned 
    4. Code      => 8 bit unsigned (0 - request, 2.xx success, 4.xx client error, 5.xx server error)
    5. MessageID => 16 bit unsigned (detects message duplication)
+
+### Option Format
+
+* CoAP defines a number of options that can be included in a message
+* The option number is calculated as the sum of the its delta and the option number of the preceeding instance. 
+
+### Message Transmission
+
+* Since CoAP uses unreliable transport such as UDP , it implements a lightweight reliability mechanism viz. stop and wait retransmission with exponential backoff and detection of duplicacy of messages. 
+* Retransmission is controlled by two things that a CoAP endpoint MUST keep track of for each Confirmable message it sends while waiting for an acknowledgement (or reset): a timeout and a retransmission counter. 
+* For reliable message transmission the message must be marked as **CONFIRMABLE**. The **ACK** must contain the message ID and must have a response or be empty (separate response). If its a **RESET** response, it should contain the messageID and an empty response.
+* Reasons for giving up retransmission may include a cancellation of the request from the endpoint or due to the receipt of ICMP (Internet control message protocol) errors. 
+* For non reliable transmission use the **NON-CONFIRMABLE** message
+* The sender or the device can choose to keep on retransmitting the **NON-CONFIRMABLE** message inspite of the fact that receiver would have received it as long as the duration is not more than the **MAX_TRASIT_SPAN**. On teh receiver side, they need to look into the messageID to ensure they dont process the same message again. 
+* Message Corelation is achieved through the messageID. the source endpoint should ensure that the message ID's are not repeated over the exhange lifetime.
+* Messages larger than an IP packet result in undesirable packet fragmentation. A CoAP message, appropriately encapsulated, SHOULD fit within a single IP packet (i.e., avoid IP fragmentation) and (by fitting into one UDP payload) obviously needs to fit within a single IP datagram.
+* A good choice is 1152 bytes for the message size  and 1024 as the payload size.
+*  CoAP places the onus of congestion control mostly on the clients.  However, clients may malfunction or actually be attackers.Hence a server SHOULD implement some rate limiting for its response transmission based on reasonable assumptions about application requirements.
+* Transmission parameters include:
+      |  name            | default Value |
+      |------------------|---------------|
+      |ACK_TIMEOUT       |2 seconds      |
+      |ACK_RANDOM_FACTOR |1.5            |
+      |MAX_RETRANSMIT    |4              |
+      |NSTART            |1              |
+      |DEFAULT_LIESURE   |5 seconds      |
+      |PROBING_RATE      |1 byte/sec     |
+
+* MAX_TRANSMIT_SPAN = ACK_TIMEOUT * ((2 ** MAX_RETRANSMIT) - 1) * ACK_RANDOM_FACTOR (= 45 based on above values)
+* MAX_TRANSMIT_WAIT =  ACK_TIMEOUT * ((2 ** (MAX_RETRANSMIT + 1)) - 1) * ACK_RANDOM_FACTOR (=93 based on above values)
+* MAX_LATENCY is arbitarily defined to be 100 seconds. 
+* PROCESSING_DELAY is usually set to ACK_TIMEOUT
+* MAX_RTT = (2 * MAX_LATENCY) + PROCESSING_DELAY
+* NON_LIFETIME = MAX_TRANSMIT_SPAN + MAX_LATENCY
+* EXCHANGE_LIFETIME = MAX_TRANSMIT_SPAN + (2 * MAX_LATENCY) + PROCESSING_DELAY
+   
