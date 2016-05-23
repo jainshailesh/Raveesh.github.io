@@ -11,6 +11,6 @@ date: 2016-05-19
 `<div>
 mvn archetype:generate -DgroupId=com.sample.package -DartifactId=sample-project
 <\div>`
-Ensure the ** <module> ** tag exists in the parent pom
+Ensure the ** `<div><module><\div>` ** tag exists in the parent pom
 Once the parent project is created, `cd` into the parent project and repeat the above command. 
 
