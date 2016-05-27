@@ -115,3 +115,26 @@ and the server (the node in this case) responds with a response code and a resou
 * NON_LIFETIME = MAX_TRANSMIT_SPAN + MAX_LATENCY
 * EXCHANGE_LIFETIME = MAX_TRANSMIT_SPAN + (2 * MAX_LATENCY) + PROCESSING_DELAY
    
+### Request/Response Semantics
+* CoAP supports GET,POST, PUT & DELETE
+* GET, PUT and DELETE should be idempotent and POST need not be as it usually creates a new resource on the server.
+* There are 3 classes of Response Codes:<br>
+   2 - Success: The request was successfully received, understood, and accepted.<br>
+   4 - Client Error: The request contains bad syntax or cannot be fulfilled.<br>
+   5 - Server Error: The server failed to fulfill an apparently valid request.<br>
+* CoAP supported header options include 
+   1. Content-Format
+   2. ETag
+   3. Location-Path
+   4. Location-Query
+   5. Max-Age
+   6. Proxy-Uri
+   7. Proxy-Scheme
+   8. Uri-Host
+   9. Uri-Path
+   10. Uri-Port
+   11. Uri-Query
+   12. Accept
+   13. If-Match
+   14. If-None-Match
+   15. Size1
