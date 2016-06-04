@@ -13,6 +13,11 @@ date: 2016-05-19
 Ensure the  `<module>` tag exists in the parent pom
 Once the parent project is created, `cd` into the parent project and repeat the above command. 
 
+### Building Spark with scala 2.11
+* Run `./dev/change-scala-version.sh 2.11`
+* Run `mvn -Pyarn -Phadoop-2.4 -Dscala-2.11 -DskipTests clean package`
+
+
 ## Linux Ubuntu
 ### Resetting Ubuntu theme
 
