@@ -53,7 +53,7 @@ and the server (the node in this case) responds with a response code and a resou
 <br>
 
 * Fixed length Binary header (4 bytes)
-* Message may ot may not contain a message ID ( alocated 2 bytes )
+* Each Message contains a message ID ( alocated 2 bytes )
 * Reliability of transmission is ensured by marking a message as Confirmable **(CON)** (which is retransmitted using default timeout and retries in case of failure) and receiving an ACK from the endpoint (EP).(if EP isunable to process , message is responsed with RESET **(RST)**)
 * Messages not requiring reliable transmissions can be sent as Non-Confirmable **(NON)** message 
 
