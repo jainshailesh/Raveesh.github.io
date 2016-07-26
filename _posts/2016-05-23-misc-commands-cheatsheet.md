@@ -30,4 +30,19 @@ Once the parent project is created, `cd` into the parent project and repeat the 
 * Reset Panel `gsettings set com.canonical.Unity.Panel systray-whitelist "['all']" `
 Log out and Login again. 
 
+## Initializing Log4j in spring applications
 
+Add the following snippet to your application-context.xml
+```
+<bean id="log4jInitialization"
+ class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+   <property name="targetClass"
+      value="org.springframework.util.Log4jConfigurer" />
+   <property name="targetMethod" value="initLogging" />
+   <property name="arguments">
+      <list>
+         <value>conf/log4j.xml</value>
+      </list>
+   </property>
+</bean>
+```
