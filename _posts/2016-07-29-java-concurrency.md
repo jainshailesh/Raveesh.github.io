@@ -12,7 +12,7 @@ date: 2016-07-29
 
 #### Models of concurrency
 
-1. Parallel worker --> One delegator assigns work to multiple worker threads, who each run the job from beginning to end. Java application servers are designed in a somewhat similar fashion.
+1. Parallel worker --> One delegator assigns work to multiple worker threads, who each run the job from beginning to end. Java application servers are designed in a somewhat similar fashion.<br>
   Advantages:<br>Easy to understand an implement. To increase parallelism add more workers (threads)
   Disadvantages:<br>Multiple threads accessing the same shared data; trying to modify the same shared space can lead to data inconsistency.<br>Due to high contention , some parts are executed serially which defeats the purpose of concurrency.  <br>Persistent Data structures maintain a previous version of the data , but managability soon becomes an issue. <br>Worker threads are stateless i.e they process the task from the beginning every time. <br>Job Ordering is non deterministic.
 2. Assembly Line / event driven systems / Reactive systems --> One delegator assigns work to a worker. The output of worker1 is assigned to worker2 . In case of IO call, the control is relinquished and once the IO operation is over, the next worker picks it up.
