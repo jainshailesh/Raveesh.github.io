@@ -15,15 +15,11 @@ date: 2016-07-29
 1. Parallel worker --> One delegator assigns work to multiple worker threads, who each run the job from beginning to end. Java application servers are designed in a somewhat similar fashion.
 <pre>Advantages:<br>Easy to understand an implement. To increase parallelism add more workers (threads)</pre>
 <pre>Disadvantages:<br>Multiple threads accessing the same shared data; trying to modify the same shared space can lead to data inconsistency.<br>Due to high contention , some parts are executed serially which defeats the purpose of concurrency.  <br>Persistent Data structures maintain a previous version of the data , but managability soon becomes an issue. <br>Worker threads are stateless i.e they process the task from the beginning every time. <br>Job Ordering is non deterministic.</pre>
-
 2. Assembly Line / event driven systems / Reactive systems --> One delegator assigns work to a worker. The output of worker1 is assigned to worker2 . In case of IO call, the control is relinquished and once the IO operation is over, the next worker picks it up.
-
 3. Actor Models & Pub sub models --> Each worker thread is an actor in actor model and communicate with each other by sending messages to each other's inbox. In Pub sub model the worker threads send messages to channels and other worker threads listen on these channels and pick up the jobs. 
 <pre>Advantages:<br>No shared state between workers. <br>Worker threads can be stateful.<br>Mechanical sympathy / Hardware Conformity is better because we are esentially writing programs as though they are all single threaded applications .<br>Job ordering is possible . </pre>
 <pre>Disadvantages:<br>Work execution is pread across multiple workers / threads.<br>Callback handlers for all workers needs to be written well.<br>Extensive callback handlers can make code messy.</pre>
-
 4. Functional Parallelism --> Programs are implemeneted as functional calls and for each call to a function, the values are copied in order to avoid race conditions with the shared data.(i.e each function call is an atomic operation)
-
 5. Same threading --> single threaded systems are scaled out to N single threaded systems running parallely. 
 <pre>Advantages:<br>No shared states.<br>Able to utilize all the cores on the CPU. example (Microservices).<br>Thread communication takes place via pipes, queues, TCP sockets, message passing etc.<br>For processing: the data is first copied so that the data cannot be changed while another thread i working on it.<br>Concurrency problems can be avoided and no need to use concurrent data structures. </pre>
 
