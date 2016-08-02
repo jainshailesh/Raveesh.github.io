@@ -11,14 +11,8 @@ date: 2016-07-29
 
 ### Models of concurrency
 1. Parallel worker --> One delegator assigns work to multiple worker threads, who each run the job from beginning to end. Java application servers are designed in a somewhat similar fashion.
-  <pre>
-    1. Advantages: Easy to understand an implement. To increase parallelism add more workers (threads)
-  </pre>
-  <pre>
-    2. Disadvantages: Multiple threads accessing the same shared data; trying to modify the same shared space can lead to data     inconsistency. <br> Due to high contention , some parts are executed serially which defeats the purpose of concurrency.     <br>Persistent Data structures maintain a previous version of the data , but managability soon becomes an issue. 
-       <br>Worker threads are stateless i.e they process the task from the beginning every time. 
-       <br>Job Ordering is non deterministic
-  </pre>
+<pre>Advantages: Easy to understand an implement. To increase parallelism add more workers (threads)</pre>
+<pre>Disadvantages: Multiple threads accessing the same shared data; trying to modify the same shared space can lead to data     inconsistency. <br> Due to high contention , some parts are executed serially which defeats the purpose of concurrency.     <br>Persistent Data structures maintain a previous version of the data , but managability soon becomes an issue. <br>Worker threads are stateless i.e they process the task from the beginning every time. <br>Job Ordering is non deterministic. </pre>
 
 2. Assembly Line / event driven systems / Reactive systems --> One delegator assigns work to a worker. The rest of worker1 is assigned to worker2 . In case of IO call, the control is relinquished and once the IO operation is over, the next worker picks it up.
 3. Actor Models & Pub sub models --> Each worker thread is an actor in actor model and communicate with each other by sending messages to each other's inbox. In Pub sub model the worker threads send messages to channels and other worker threads listen on these channels and pick up the jobs. 
