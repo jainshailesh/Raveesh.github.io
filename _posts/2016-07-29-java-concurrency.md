@@ -10,7 +10,7 @@ date: 2016-07-29
 3. A concurrency model explains how various threads in a system talk to each other in order to complete a given task.
 4. In concurrent systems different threads talk to each other to complete a task. In distributed systems, different processes communicate with each other to complete a job 
 
-### Models of concurrency
+#### Models of concurrency
 
 1. Parallel worker --> One delegator assigns work to multiple worker threads, who each run the job from beginning to end. Java application servers are designed in a somewhat similar fashion.
 <pre>Advantages:<br>Easy to understand an implement. To increase parallelism add more workers (threads)</pre>
