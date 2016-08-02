@@ -7,12 +7,19 @@ date: 2016-07-29
 1. Writing correct programs is hard; writing correct concurrent programs is harder.
 2. Concurrent programs are more responsive and provide better resource utilization. 
 3. A concurrency model explains how various threads in a system talk to each other in order to complete a given task.
-4. In concurrent systems different threads talk to each other to complete a task. In distributed systems, different processes communication with each other to complete a job 
+4. In concurrent systems different threads talk to each other to complete a task. In distributed systems, different processes communicate with each other to complete a job 
 
 ### Models of concurrency
-1. Parallel worker --> One delegator assigns work to multiple worker threads, who each run the job from beginning to end. Java application servers are dsigned in a somewhat similar fashion.
-  1. Advantages: Easy to understand an implement. To increase parallelism add more workers (threads)
-  2. Disadvantages: Multiple threads accessing the same shared data; trying to modify the same shared space can lead to data inconsistency. ; Due to high contention , some parts are executed serially which defeats the purpose of concurrency. Persistent Data structures maintain a previous version of the data , but managability soon becomes an issue. Worker threads are stateless i.e they process the task from the beginning every time. Job Ordering is non deterministic
+1. Parallel worker --> One delegator assigns work to multiple worker threads, who each run the job from beginning to end. Java application servers are designed in a somewhat similar fashion.
+  <pre>
+    1. Advantages: Easy to understand an implement. To increase parallelism add more workers (threads)
+  </pre>
+  <pre>
+    2. Disadvantages: Multiple threads accessing the same shared data; trying to modify the same shared space can lead to data     inconsistency. <br> Due to high contention , some parts are executed serially which defeats the purpose of concurrency.     <br>Persistent Data structures maintain a previous version of the data , but managability soon becomes an issue. 
+       <br>Worker threads are stateless i.e they process the task from the beginning every time. 
+       <br>Job Ordering is non deterministic
+  </pre>
+
 2. Assembly Line / event driven systems / Reactive systems --> One delegator assigns work to a worker. The rest of worker1 is assigned to worker2 . In case of IO call, the control is relinquished and once the IO operation is over, the next worker picks it up.
 3. Actor Models & Pub sub models --> Each worker thread is an actor in actor model and communicate with each other by sending messages to each other's inbox. In Pub sub model the worker threads send messages to channels and other worker threads listen on these channels and pick up the jobs. 
   1. Advantages: No shared state between workers. Worker threads can be stateful.Mechanical sympathy / Hardware Conformity is better because we are esentially writing programs as though they are all single threaded applications . Job ordering is possible . 
