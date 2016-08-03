@@ -25,9 +25,8 @@ date: 2016-07-29
 
 #### Concurrency vs parallelism 
 
-1. concurrency is executing and progressing of group of tasks at the same time. If only one CPU is present and only a single core . it can still do multiple tasks .. but by time slicing.<br>
-
-2. Parallelism is division of a super task into multiple smaller tasks and executing these sub tasks in parallel. If division of task does not happen , then it is probably concurrent execution and not parallel.
+1. Concurrency is executing and progressing of group of tasks at the same time. If only one CPU is present and only a single core . it can still do multiple tasks .. but by time slicing.<br>
+2. Parallelism is division of a super task into multiple smaller tasks and executing these sub tasks in parallel. If division of task does not happen , then it is probably concurrent execution and not parallel.<br>
 
 #### 2 ways to create thread(Old Java)
 
@@ -47,5 +46,76 @@ Object member variables are stored in the heap along with the other Objects. the
 Thread control escape Rule : If a resource is created, used and disposed within the control of the same thread, and never escapes the control of this thread,the use of that resource is thread safe.
 By creating wrapper classes around Immutable classes we are making them devoid of being thread safe. In such cases ensure the operations on the immutable classes are synchronized. 
 
-## TO READ
+#### Java Memory Model
+
+1. The Java memory model specifies how the JVM interacts with the computer's memory i.e RAM.
+2. The memory is essentially divided into thread stacks and Heap Memory.
+3. All Local variable are saved in the thead stack . All Object References are local to the thread stack.The objects itself are saved in the heap memory. Hence even Integer / Double variables which are objects are saved in the heap. 
+<br>e.g<br>
+```
+
+/**
+t1 stack --> methodOne () --> LocalVariable1, t1.localVariable2 (only reference); t1.methodTwo()-->t1.localVariable1 (only reference)
+t2 stack --> methodOne () --> LocalVariable1, t2.localVariable2 (only reference); t2.methodTwo()-->t2.localVariable1 (only reference)
+heap --> MysharedInstance,localVariable2 object (shared), t1.localVariable1 and t2.localVariable1 are creating 'new Integer' 
+hence 2 objects on heap.
+*/
+public class Main{
+
+  psvm {
+    new Thread(new MyRunnable()).start(); //assume name t1
+    new Thread(new MyRunnable()).start(); //assume name t2
+  }
+}
+
+
+public class MyRunnable implements Runnable() {
+
+    public void run() {
+        methodOne();
+    }
+
+    public void methodOne() {
+        int localVariable1 = 45;
+
+        MySharedObject localVariable2 =
+            MySharedObject.sharedInstance;
+
+        //... do more with local variables.
+
+        methodTwo();
+    }
+
+    public void methodTwo() {
+        Integer localVariable1 = new Integer(99);
+
+        //... do more with local variable.
+    }
+}
+
+public class MySharedObject {
+
+    //static variable pointing to instance of MySharedObject
+
+    public static final MySharedObject sharedInstance =
+        new MySharedObject();
+
+
+    //member variables pointing to two objects on the heap
+
+    public Integer object2 = new Integer(22);
+    public Integer object4 = new Integer(44);
+
+    public long member1 = 12345;
+    public long member1 = 67890;
+} 
+```
+#### Hardware memory architecture
+
+CPU Registers --> cpu cache--> RAM(main memory). 
+shared objects are stored in the main memory. If 2 threads are accessing the same shared object, It may be loaded into 2 different CPU caches. Each thread may then modify the value in the CPU register and save it back in the main memory causing a data inconsistency. To avoid this , if we use volatile keyword, the variable is read directly from the main memory and written back . Similarly synchronized will ensure that the critical code section will be executed by only one thread and the variables tat are modified are flushed back into the main memory.
+
+
+
+#### TO READ
   New, asynchronous "shared-nothing" platforms and APIs like Vert.x and Play / Akka, LMax Disrupter, Qbit , Fork and Join framework in Java 7, and the collection streams API in Java 8. 
