@@ -53,13 +53,11 @@ By creating wrapper classes around Immutable classes we are making them devoid o
 3. All Local variable are saved in the thead stack . All Object References are local to the thread stack.The objects itself are saved in the heap memory. Hence even Integer / Double variables which are objects are saved in the heap. 
 <br>e.g<br>
 ```
-
-/**
-t1 stack --> methodOne () --> LocalVariable1, t1.localVariable2 (only reference); t1.methodTwo()-->t1.localVariable1 (only reference)
-t2 stack --> methodOne () --> LocalVariable1, t2.localVariable2 (only reference); t2.methodTwo()-->t2.localVariable1 (only reference)
-heap --> MysharedInstance,localVariable2 object (shared), t1.localVariable1 and t2.localVariable1 are creating 'new Integer' 
+//t1 stack --> methodOne () --> LocalVariable1, t1.localVariable2 (only reference); t1.methodTwo()-->t1.localVariable1 (only reference)
+//t2 stack --> methodOne () --> LocalVariable1, t2.localVariable2 (only reference); t2.methodTwo()-->t2.localVariable1 (only reference)
+//heap --> MysharedInstance,localVariable2 object (shared), t1.localVariable1 and t2.localVariable1 are creating 'new Integer' 
 hence 2 objects on heap.
-*/
+
 public class Main{
 
   psvm {
