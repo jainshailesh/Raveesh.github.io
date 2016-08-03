@@ -113,6 +113,12 @@ public class MySharedObject {
 CPU Registers --> cpu cache--> RAM(main memory). 
 shared objects are stored in the main memory. If 2 threads are accessing the same shared object, It may be loaded into 2 different CPU caches. Each thread may then modify the value in the CPU register and save it back in the main memory causing a data inconsistency. To avoid this , if we use volatile keyword, the variable is read directly from the main memory and written back . Similarly synchronized will ensure that the critical code section will be executed by only one thread and the variables tat are modified are flushed back into the main memory.
 
+#### Volatile Variables
+Volatile variables are read and written directly from the main memory. However, there is no thread locking while performing the read and write operation. A few things to keep in mind are: when there is a read or write operation on a volatile variable, all the other corresponding variables are also flushed into the memory.(called as a happens before paradigm for volatile variables). This ensures that when another thread tries to view a volatile variable it gets visibility into other shared variables that has been updated by other threads as well. However, since the threads are not blocked, synchronized is essential to ensure the same view of the object to all threads. Accessing volatile variables also prevent instruction reordering which is a normal performance enhancement technique. Thus, you should only use volatile variables when you really need to enforce visibility of variables. 
+
+#### ThreadLocal Variables
+Any object declared as a ThreadLocal will be seen only by the threadOwner. The declaration looks as follows 
+```   private ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>();```
 
 
 #### TO READ
