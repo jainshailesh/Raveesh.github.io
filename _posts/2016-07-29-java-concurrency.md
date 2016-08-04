@@ -118,7 +118,17 @@ Volatile variables are read and written directly from the main memory. However, 
 
 #### ThreadLocal Variables
 Any object declared as a ThreadLocal will be seen only by the threadOwner. The declaration looks as follows 
-```   private ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>();```
+```   private ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>(); ```
+
+#### Wait and Notify Mechanism
+both the waiting and notifying thread calls wait() and notify() from within a synchronized block. This is mandatory! A thread cannot call wait(), notify() or notifyAll() without holding the lock on the object the method is called on. If it does, an IllegalMonitorStateException is thrown. <br>
+It is possible for threads to wake up without the notify() and notifyAll() method calls. these are called as spurious wakeup.
+
+#### Deadlock 
+``` 
+Thread1 has locked A and is waiting to lock B
+Thread B has locked B and is waiting to lock A
+```
 
 
 #### TO READ
