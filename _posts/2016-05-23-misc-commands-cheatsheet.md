@@ -46,3 +46,6 @@ Add the following snippet to your application-context.xml
    </property>
 </bean>
 ```
+
+## Obtaining the serial id of a Linux based machine
+``` $ > dmidecode -s system-serial-number  ```
