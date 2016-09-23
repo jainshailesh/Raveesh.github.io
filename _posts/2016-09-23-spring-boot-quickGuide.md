@@ -89,6 +89,47 @@ default attributes
 1. Registered FailureAnalyzers get a chance to provide a dedicated error message and a concrete action to fix the problem. 
 For instance if you start a web application on port 8080 and that port is already in use
 
+### Application Events
+
+1. An ApplicationStartedEvent is sent at the start of a run, but before any processing except the registration of listeners and initializers.
+2. An ApplicationEnvironmentPreparedEvent is sent when the Environment to be used in the context is known, but before the context is created.
+3. An ApplicationPreparedEvent is sent just before the refresh is started, but after bean definitions have been loaded.
+4. An ApplicationReadyEvent is sent after the refresh and any related callbacks have been processed to indicate the application is ready to service requests.
+5. An ApplicationFailedEvent is sent if there is an exception on startup.
+
+### Using the ApplicationRunner or CommandLineRunner
+
+1. If you need to run some specific code once the SpringApplication has started, you can implement the ApplicationRunner or CommandLineRunner interfaces. Both interfaces work in the same way and offer a single run method which will be called just before SpringApplication.run(…​) completes.
+2. If you need to access the application arguments that were passed to SpringApplication.run(…​) you can inject a org.springframework.boot.ApplicationArguments bean. The ApplicationArguments interface provides access to both the raw String[] arguments as well as parsed option and non-option arguments:
+3. In addition, beans may implement the org.springframework.boot.ExitCodeGenerator interface if they wish to return a specific exit code when the application ends.
+
+### Spring Properties and Yaml
+1. Using the @Value("${property}") annotation to inject configuration properties can sometimes be cumbersome, especially if you are working with multiple properties or your data is hierarchical in nature. Spring Boot provides an alternative method of working with properties that allows strongly typed beans to govern and validate the configuration of your application. We can use the @ConfigurationProperties to inject the properties directly into the bean.
+2. YAML files can’t be loaded via the @PropertySource annotation. So in the case that you need to load values that way, you need to use a properties file.
+3. YAML is a superset of JSON, and as such is a very convenient format for specifying hierarchical configuration data. The SpringApplication class will automatically support YAML as an alternative to properties whenever you have the SnakeYAML library on your classpath.
+
+
+### To enable custom logging 
+```
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>1.3.7.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+```
+### Spring MVC
+1. Spring MVC uses the HttpMessageConverter interface to convert HTTP requests and responses. Sensible defaults are included out of the box, for example Objects can be automatically converted to JSON (using the Jackson library) or XML (using the Jackson XML extension if available, else using JAXB). 
+2. All @JsonComponent beans in the ApplicationContext will be automatically registered with Jackson, and since @JsonComponent is meta-annotated with @Component, the usual component-scanning rules apply.Spring Boot also provides JsonObjectSerializer and JsonObjectDeserializer base classes which provide useful alternatives to the standard Jackson versions when serializing Objects. 
+3. Spring MVC has a strategy for generating error codes for rendering error messages from binding errors: MessageCodesResolver. Spring Boot will create one for you if you set the spring.mvc.message-codes-resolver.format property PREFIX_ERROR_CODE or POSTFIX_ERROR_CODE (see the enumeration in DefaultMessageCodesResolver.Format).
+4. If you want to display a custom HTML error page for a given status code, you add a file to an /error folder. Error pages can either be static HTML (i.e. added under any of the static resource folders) or built using templates. The name of the file should be the exact status code or a series mask.
+5. Actuator endpoints allow you to monitor and interact with your application. Spring Boot includes a number of built-in endpoints and you can also add your own. For example the health endpoint provides basic application health information.
+6. 
 
 
 ### Miscellaneous
@@ -104,3 +145,5 @@ org.springframework.context.ApplicationListener key.
 ```
 org.springframework.context.ApplicationListener=com.example.project.MyListener
 ```
+4. It is often desirable to call setWebEnvironment(false) when using SpringApplication within a JUnit test.
+5. It is possible to enable admin-related features for the application by specifying the spring.application.admin.enabled property.
