@@ -4,7 +4,7 @@ title: "Becoming an expert Developer"
 Date: 2016-10-05
 ---
 
-## Tips [Listicle : 15 Expert Advices](http://www.oracle.com/technetwork/articles/java/index-136000.html)
+## [Listicle : 15 Expert Advices](http://www.oracle.com/technetwork/articles/java/index-136000.html)
 
 #### [Joshua Bloch: Write Lots of Code]
 1. Read Complete Effective Java. Then re read and implement. 
@@ -36,10 +36,12 @@ driven programming. Learn these for all languages and then move on UX designing,
 
 #### [Cay Horstmann: First, Don't Panic]
 9. Do not panic on seeing crazy generics such as 
+
 ```
  static <T extends Object & Comparable<? super T>> T
     Collections.max(Collection<? extends T> coll)
 ```
+
 10. Do not do random tinkering. Understand where we have been sloppy and learn from it. 
 
 #### [Arun Gupta: Try Different IDEs]
