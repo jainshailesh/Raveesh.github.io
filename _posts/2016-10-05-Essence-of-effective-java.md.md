@@ -117,8 +117,8 @@ E.x Popping from a stack
 > into disuse. This can be done by a background thread (perhaps a Timer or ScheduledThreadPoolExecutor ) 
 > or as a side effect of adding new entries to the cache. The LinkedHashMap class facilitates the 
 > latter approach with its removeEldestEntry method. For more sophisticated caches, you may need 
-> to use java.lang.ref directly.
--
+> to use java. lang. ref directly.
+
 
 5. Listeners and callbacks should be explicitly deregistered, else they will keep accumulating in the heap. Hence its safe to save them as a weakReference HashMap. these accumulated objects can be viewed using a Heap Profiler. 
 
@@ -194,7 +194,9 @@ Easiest way is to avoid overriding the equals method in the following scenarios.
       vi. If the field is an object reference and this class’s equals method compares the field by recursively invoking equals , recursively invoke hashCode on the field. If a more complex comparison is required, compute a “canonical representation” for this field and invoke hashCode on the canonical representation. If the value of the field is null , return 0 (or some other constant, but 0 is traditional).
       vii. If the field is an array, treat it as if each element were a separate field. That is, compute a hash code for each significant element by applying these rules recursively, and combine these values per step 2.b. If every element in an array field is significant, you can use one of the Arrays.hashCode methods added in release 1.5.
 > b. Combine the hash code c computed in step 2.a into result as follows:
-> ```result = 31 * result + c;
+> 
+```
+result = 31 * result + c;
 ```
 > c. Return result .
 > When you are finished writing the hashCode method, ask yourself whether equal instances have equal hash codes. Write unit tests to verify your intuition!
