@@ -9,10 +9,10 @@ Date: 2016-10-06
 #### [Item 1: Consider static factory methods instead of Constructors]
 
 Advantages:
+
 1. We can use proper names for the methods rather than use a constructor. This will greatly enhance readability.
 2. They need not create a new object every time they are invoked unlike a constructor.
-3. We can return the instances from the static method and thus maybe even cache them and control the number of instances that 
-are produced. e.g Flyweight Design pattern 
+3. We can return the instances from the static method and thus maybe even cache them and control the number of instances that are produced. e.g Flyweight Design pattern 
 4. They reduce the verbosity of creating parametrized type instances
 5. Common Names of static methods can be valueOf, Of,getInstance(), newInstance(), getType(),newType() etc. 
 
