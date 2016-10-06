@@ -214,3 +214,10 @@ When you are finished writing the hashCode method, ask yourself whether equal in
 2. Provide programmatic access to all of the information contained in the value returned by toString .
 
 #### [Item 11: Override Clone judiciously] [TODO]
+
+#### [Item 12: Consider implementing Comparable]
+
+1. By implementing Comparable , a class indicates that its instances have a natural ordering.
+2. Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object. Throws ClassCastException if the specified object’s type prevents it from being compared to this object.
+3. If you want to add a value component to a class that implements Comparable , don’t extend it; write an unrelated class containing an instance of the first class. Then provide a “view” method that returns this instance. This frees you to implement whatever compareTo method you like on the second class, while allowing its client to view an instance of the second class as an instance of the first class when needed.
+4. A caveat in BigDecimal For example, consider the BigDecimal class, whose compareTo method is inconsistent with equals . If you create a HashSet instance and add new BigDecimal("1.0") and new BigDecimal("1.00") , the set will contain two elements because the two BigDecimal instances added to the set are unequal when compared using the equals method. If, however, you perform the same procedure using a TreeSet instead of a HashSet , the set will contain only one element because the two BigDecimal instances are equal when compared using the compareTo method. (See the BigDecimal documentation for details.)
