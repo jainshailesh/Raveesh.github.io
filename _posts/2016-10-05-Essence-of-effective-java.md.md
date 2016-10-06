@@ -221,3 +221,44 @@ When you are finished writing the hashCode method, ask yourself whether equal in
 2. Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object. Throws ClassCastException if the specified object’s type prevents it from being compared to this object.
 3. If you want to add a value component to a class that implements Comparable , don’t extend it; write an unrelated class containing an instance of the first class. Then provide a “view” method that returns this instance. This frees you to implement whatever compareTo method you like on the second class, while allowing its client to view an instance of the second class as an instance of the first class when needed.
 4. A caveat in BigDecimal For example, consider the BigDecimal class, whose compareTo method is inconsistent with equals . If you create a HashSet instance and add new BigDecimal("1.0") and new BigDecimal("1.00") , the set will contain two elements because the two BigDecimal instances added to the set are unequal when compared using the equals method. If, however, you perform the same procedure using a TreeSet instead of a HashSet , the set will contain only one element because the two BigDecimal instances are equal when compared using the compareTo method. (See the BigDecimal documentation for details.)
+
+#### [Item 13: Minimize the accessibility of classes and members]
+
+1. A well-designed module hides all of its implementation details, cleanly separating its API from its implementation. Modules then communicate only through their APIs and are oblivious to each others’ inner workings. This concept, known as information hiding or encapsulation, is one of the fundamental tenets of software design
+2. information hiding decreases the risk in building large systems, because individual modules may prove successful even if the system does not.
+3. Instance fields should never be public
+4. classes with public mutable fields are not thread-safe.
+5. You can expose constants via public static final fields, assuming the constants form an integral part of the abstraction provided by the class. By convention, such fields have names consisting of capital letters, with words separated by underscores It is critical that these fields contain either primitive values or references to immutable objects (Item 15). A final field containing a reference to a mutable object has all the disadvantages of a nonfinal field.
+
+#### [Item 14: In public classes, use accessor methods, not public fields]
+
+1. Classic Example of encapsulation
+
+```
+class Point {
+private double x;
+private double y;
+public Point(double x, double y) {
+this.x = x;
+this.y = y;
+}
+public double getX() { return x; }
+public double getY() { return y; }
+public void setX(double x) { this.x = x; }
+public void setY(double y) { this.y = y; }
+}
+```
+
+#### [Item 15: Minimize mutability]
+
+1. To make a class immutable follow these Rules: 
+      1. Don’t provide any methods that modify the object’s state (known as mutators).
+      2. Ensure that the class can’t be extended. e.g by making it final 
+      3. Make all fields final 
+      4. Make all fields private
+      5. Ensure exclusive access to any mutable components by making defensive copies in constructor, accesor, read methods etc
+2. Immutability is enhanced using functional approach because methods return the result of applying a function to their operand without modifying it.
+3. An immutable object can be in only one state and that is the state in which it was created. 
+4. Immutable objects are inherently thread-safe; they require no synchronization.
+5. The alternative to making an immutable class final is to make all of its constructors private or package-private, and to add public static factories in place of the public constructors
+6. resist the urge to write a set method for every get method. Classes should be immutable unless there’s a very good reason to make them mutable.
