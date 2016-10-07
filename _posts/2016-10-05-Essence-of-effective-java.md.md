@@ -222,6 +222,8 @@ When you are finished writing the hashCode method, ask yourself whether equal in
 3. If you want to add a value component to a class that implements Comparable , don’t extend it; write an unrelated class containing an instance of the first class. Then provide a “view” method that returns this instance. This frees you to implement whatever compareTo method you like on the second class, while allowing its client to view an instance of the second class as an instance of the first class when needed.
 4. A caveat in BigDecimal For example, consider the BigDecimal class, whose compareTo method is inconsistent with equals . If you create a HashSet instance and add new BigDecimal("1.0") and new BigDecimal("1.00") , the set will contain two elements because the two BigDecimal instances added to the set are unequal when compared using the equals method. If, however, you perform the same procedure using a TreeSet instead of a HashSet , the set will contain only one element because the two BigDecimal instances are equal when compared using the compareTo method. (See the BigDecimal documentation for details.)
 
+## [Classes and Interfaces] 
+
 #### [Item 13: Minimize the accessibility of classes and members]
 
 1. A well-designed module hides all of its implementation details, cleanly separating its API from its implementation. Modules then communicate only through their APIs and are oblivious to each others’ inner workings. This concept, known as information hiding or encapsulation, is one of the fundamental tenets of software design
@@ -262,3 +264,132 @@ public void setY(double y) { this.y = y; }
 4. Immutable objects are inherently thread-safe; they require no synchronization.
 5. The alternative to making an immutable class final is to make all of its constructors private or package-private, and to add public static factories in place of the public constructors
 6. resist the urge to write a set method for every get method. Classes should be immutable unless there’s a very good reason to make them mutable.
+
+#### [Item 16: Favor composition over inheritance]
+
+1. Unlike method invocation, inheritance violates encapsulation
+2. Any class that is extending a super class has to get updated whenever there is a new implementation in the superclass. Moreover, it may hppen that once the super class is modified any moethod that is overridden in the child class may cause a compilation failure.
+
+#### [Item 17: Design and document for inheritance or else prohibit it]
+
+1. For each public or protected method or constructor, the documentation must indicate which overridable methods the method or constructor invokes, in what sequence, and how the results of each invocation affect subsequent processing. (By overridable, we mean nonfinal and either public or protected.)
+2. By convention, a method that invokes overridable methods contains a description of these invocations at the end of its documentation comment. The description begins with the phrase “This implementation.”
+3. To allow programmers to write efficient subclasses without undue pain, a class may have to provide hooks into its internal workings in the form of judiciously chosen protected methods or, in rare instances, protected fields
+4. The only way to test a class designed for inheritance is to write subclasses.If you omit a crucial protected member, trying to write a subclass will make the omission painfully obvious.
+5. Constructors must not invoke overridable methods, directly or indirectly. If you violate this rule, program failure will result. The superclass constructor runs before the subclass constructor, so the overriding method in the subclass will get invoked before the subclass constructor has run. If the overriding method depends on any initialization performed by the subclass constructor, the method will not behave as expected
+
+#### [Item 18: Prefer interfaces to abstract classes]
+
+1. Existing classes can be easily retrofitted to implement a new interface.
+2. Interfaces are ideal for defining mixins. Loosely speaking, a mixin is a type that a class can implement in addition to its “primary type” to declare that it provides some optional behavior. For example, Comparable is a mixin interface that allows a class to declare that its instances are ordered with respect to other mutually comparable objects.
+3. Interfaces allow the construction of nonhierarchical type frameworks.
+4. Interfaces enable safe, powerful functionality enhancements via the wrap-per class idiom
+5. You can combine the virtues of interfaces and abstract classes by providing an abstract skeletal implementation class to go with each nontrivial interface that you export.
+
+#### [Item 19: Use interfaces only to define types]
+
+1. The constant interface pattern is a poor use of interfaces. That a class uses some constants internally is an implementation detail. Implementing a constant interface causes this implementation detail to leak into the class’s exported API.
+2. In summary, interfaces should be used only to define types. They should not be used to export constants.
+
+#### [Item 20: Prefer class hierarchies to tagged classes]
+
+1. From the Book 
+
+```
+Such tagged classes have numerous shortcomings. They are cluttered with boilerplate, including enum declarations, tag fields, and switch statements. Readability is further harmed because multiple implementations are jumbled together in a single class. Memory footprint is increased because instances are burdened with irrelevant fields belonging to other flavors. Fields can’t be made final unless constructors initialize irrelevant fields, resulting in more boilerplate. Constructors must set the tag field and initialize the right data fields with no help from the compiler: if you initialize the wrong fields, the program will fail at runtime. You can’t add a flavor to a tagged class unless you can modify its source file. If you do add a flavor, you must remember to add a case to every switch statement, or the class will fail at runtime. Finally, the data type of an instance gives no clue as to its flavor. In short, tagged classes are verbose, error-prone, and inefficient.
+```
+
+2. If you’re tempted to write a class with an explicit tag field, think about whether the tag could be eliminated and the class replaced by a hierarchy. When you encounter an existing class with a tag field, consider refactoring it into a hierarchy.
+
+#### [Item 21: Use function objects to represent strategies]
+
+1. a primary use of function pointers is to implement the Strategy pattern. To implement this pattern in Java, declare an interface to represent the strategy, and a class that implements this interface for each concrete strategy.When a concrete strategy is used only once, it is typically declared and instantiated as an anonymous class. When a concrete strategy is designed for repeated use, it is generally implemented as a private static member class and exported in a public static final field whose type is the strategy interface.
+
+#### [Item 22: Favor static member classes over nonstatic]
+
+1. A nested class is a class defined within another class. A nested class should exist only to serve its enclosing class. If a nested class would be useful in some other context, then it should be a top-level class. There are four kinds of nested classes: static member classes, nonstatic member classes, anonymous classes, and local classes.
+2. One common use of a nonstatic member class is to define an Adapter that allows an instance of the outer class to be viewed as an instance of some unrelated class. For example, implementations of the Map interface typically use nonstatic member classes to implement their collection views, which are returned by Map ’s keySet , entrySet , and values methods.
+
+## [Generics]
+
+#### [Item 23: Don’t use raw types in new code]
+
+1. If you use raw types, you lose all the safety and expressiveness benefits of generics. 
+2. You lose type safety if you use a raw type like List , but not if you use a parameterized type like List &lt;Object&gt;3
+3. While you can pass a List&lt;String&gt; to a parameter of type List , you can’t pass it to a parameter of type List&lt;Object&gt;.There are subtyping rules for generics, and List&lt;String&gt; is a subtype of the raw type List , but not of the parameterized type List&lt;Object&gt;
+4. you can’t put any element (other than null ) into a Collection<?>
+
+#### [Item 24: Eliminate unchecked warnings]
+
+1. Eliminate every unchecked warning that you can.
+2. Every time you use an @SuppressWarnings("unchecked") annotation, add a comment saying why it’s safe to do so. This will help others understand the code, and more importantly, it will decrease the odds that someone will modify the code so as to make the computation unsafe.
+
+#### [Item 25: Prefer lists to arrays]
+1. arrays are covariant. This scary-sounding word means simply that if Sub is a subtype of Super, then the array type Sub[] is a subtype of Super[] . Generics, by contrast, are invariant: for any two distinct types Type1 and Type2 , List&lt;Type1&gt; is neither a subtype nor a supertype of List&lt;Type2&gt;
+2. From the Book 
+
+```
+The second major difference between arrays and generics is that arrays are reified [JLS, 4.7]. This means that arrays know and enforce their element types at runtime. As noted above, if you try to store a String into an array of Long , you’ll get an ArrayStoreException . Generics, by contrast, are implemented by erasure [JLS, 4.6]. This means that they enforce their type constraints only at compile time and discard (or erase) their element type information at runtime. Erasure is what allows generic types to interoperate freely with legacy code that does not use generics .
+```
+
+3. Types such as E , List&lt;E&gt; , and List&lt;String&gt; are technically known as non reifiable types [JLS, 4.7]. Intuitively speaking, a non-reifiable type is one whose runtime representation contains less information than its compile-time representation. The only parameterized types that are reifiable are unbounded wildcard types such as List&lt;?&gt; and Map&lt;?,?&gt; . It is legal, though infrequently useful, to create arrays of unbounded wildcard types
+
+#### [Item 26: Favor generic types]
+
+1. In summary, generic types are safer and easier to use than types that require casts in client code. When you design new types, make sure that they can be used without such casts. This will often mean making the types generic. Generify your existing types as time permits. This will make life easier for new users of these types without breaking existing clients.
+
+#### [Item 27: Favor generic methods]
+
+1. generic methods, like generic types, are safer and easier to use than methods that require their clients to cast input parameters and return values. Like types, you should make sure that your new methods can be used without casts, which will often mean making them generic. And like types, you should generify your existing methods to make life easier for new users without breaking existing clients
+
+2. e.g to calculate max in a list 
+
+```
+// Returns the maximum value in a list - uses recursive type bound
+public static <T extends Comparable<T>> T max(List<T> list) {
+Iterator<T> i = list.iterator();
+T result = i.next();
+while (i.hasNext()) {
+T t = i.next();
+if (t.compareTo(result) > 0)
+result = t;
+}
+return result;
+}
+```
+
+#### [Item 28: Use bounded wildcards to increase API flexibility]
+
+1. The language provides a special kind of parameterized type call a bounded wildcard type.
+2. For maximum flexibility, use wildcard types on input parameters that represent producers or consumers.
+3. PECS stands for producer- extends , consumer- super .
+4. if a parameterized type represents a T producer, use &lt;? extends T&gt; ; if it represents a T consumer, use &lt;? super T&gt;
+5. Do not use wildcard types as return types. Rather than providing additional flexibility for your users, it would force them to use wildcard types in client code.
+6. Comparables are always consumers, so you should always use Comparable&lt;? super T&gt; in preference to Comparable&lt;T&gt; . The same is true of comparators, so you should always use Comparator&lt;? super T&gt; in preference to Comparator&lt;T&gt; .
+7. if a type parameter appears only once in a method declaration, replace it with a wildcard.
+
+#### [Item 29: Consider typesafe heterogeneous containers]
+
+1. The thing to notice is that the wildcard type is nested: it’s not the type of the Map that’s a wildcard type but the type of its key. This means that every key can have a different parameterized type: one can be Class&lt;String&gt; , the next Class&lt;Integer&gt; , and so on. That’s where the heterogeneity comes from.
+
+```
+// Typesafe heterogeneous container pattern - implementation
+public class Favorites {
+private Map<Class<?>, Object> favorites =
+new HashMap<Class<?>, Object>();
+public <T> void putFavorite(Class<T> type, T instance) {
+if (type == null)
+throw new NullPointerException("Type is null");
+favorites.put(type, instance);
+}
+public <T> T getFavorite(Class<T> type) {
+return type.cast(favorites.get(type));
+}
+}
+```
+
+#### [Item 30: Use enums instead of int constants]
+
+1. An enumerated type is a type whose legal values consist of a fixed set of constants, such as the seasons of the year, the planets in the solar system, or the suits in a deck of playing cards.
+2. The basic idea behind Java’s enum types is simple: they are classes that export one instance for each enumeration constant via a public static final field. Enum types are effectively final, by virtue of having no accessible constructors. Because clients can neither create instances of an enum type nor extend it, there can be no instances but the declared enum constants.
+3. To associate data with enum constants, declare instance fields and write a constructor that takes the data and stores it in the fields.
