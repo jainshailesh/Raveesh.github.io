@@ -388,8 +388,34 @@ return type.cast(favorites.get(type));
 }
 ```
 
+## [Enums and Annotations]
+
 #### [Item 30: Use enums instead of int constants]
 
 1. An enumerated type is a type whose legal values consist of a fixed set of constants, such as the seasons of the year, the planets in the solar system, or the suits in a deck of playing cards.
 2. The basic idea behind Java’s enum types is simple: they are classes that export one instance for each enumeration constant via a public static final field. Enum types are effectively final, by virtue of having no accessible constructors. Because clients can neither create instances of an enum type nor extend it, there can be no instances but the declared enum constants.
 3. To associate data with enum constants, declare instance fields and write a constructor that takes the data and stores it in the fields.
+4. Switches on enums are good for augmenting external enum types with constant-specific behavior.
+
+#### [Item 31: Use instance fields instead of ordinals]
+
+1. Never derive a value associated with an enum from its ordinal; store it in an instance field instead
+
+#### [Item 32: Use EnumSet instead of bit fields]
+
+1. The java.util package provides the EnumSet class to efficiently represent sets of values drawn from a single enum type
+2. In summary, just because an enumerated type will be used in sets, there is no reason to represent it with bit fields. The EnumSet class combines the conciseness and performance of bit fields with all the many advantages of enum types described
+
+#### [Item 33: Use EnumMap instead of ordinal indexing]
+
+```
+// Using an EnumMap to associate data with an enum
+Map<Herb.Type, Set<Herb>> herbsByType =
+new EnumMap<Herb.Type, Set<Herb>>(Herb.Type.class);
+for (Herb.Type t : Herb.Type.values())
+herbsByType.put(t, new HashSet<Herb>());
+for (Herb h : garden)
+herbsByType.get(h.type).add(h);
+System.out.println(herbsByType);
+```
+
