@@ -57,3 +57,8 @@ fundamental to ensure that the product we design sees the light of the day.
 
 #### [Tom Ball: Programming Is Still a Craft]
 15. Contribute to Open source. Improve your credibility with peers and join various Java Forums. 
+
+
+## [My Books to read]
+1. Code the hidden language of hardware and software ( By Charles Petzold )
+2. Object Oriented Software Construction ( By Betrand Meyer )
