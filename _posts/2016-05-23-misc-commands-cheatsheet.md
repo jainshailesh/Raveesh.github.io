@@ -49,3 +49,19 @@ Add the following snippet to your application-context.xml
 
 ## Obtaining the serial id of a Linux based machine
 ``` $ > dmidecode -s system-serial-number  ```
+
+## Installing Python 2.7.10 on a new VM 
+``` 
+sudo apt-get install -y gcc-multilib g++-multilib libffi-dev libffi6 libffi6-dbg python-crypto python-mox3 python-pil python-ply libssl-dev zlib1g-dev libbz2-dev libexpat1-dev libbluetooth-dev libgdbm-dev dpkg-dev quilt autotools-dev libreadline-dev libtinfo-dev libncursesw5-dev tk-dev blt-dev libssl-dev zlib1g-dev libbz2-dev libexpat1-dev libbluetooth-dev libsqlite3-dev libgpm2 mime-support netbase net-tools bzip2
+
+$ wget https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tgz
+$ tar xvf Python-2.7.10.tgz
+$ cd Python-2.7.10/
+
+$ ./configure --prefix /usr/local/lib/python2.7.10 --enable-ipv6
+$ make
+$ sudo make install
+
+$ /usr/local/lib/python2.7.10/bin/python -V
+Python 2.7.10 
+```
