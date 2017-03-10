@@ -65,3 +65,21 @@ $ sudo make install
 $ /usr/local/lib/python2.7.10/bin/python -V
 Python 2.7.10 
 ```
+
+## Generic conversion of json String to the class desired. 
+
+```
+  public <T> T unmarshall(String jsonString, TypeReference<T> type) {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(Include.NON_NULL);
+    try {
+      if (jsonString != null) {
+        T object = mapper.readValue(jsonString, type);
+        return object;
+      }
+    } catch (IOException e) {
+      System.err.println("JSON deserialization exception" + e);
+    }
+    return null;
+  }
+```
