@@ -83,3 +83,31 @@ Python 2.7.10
     return null;
   }
 ```
+## Starting a Spring boot application as a Service 
+
+Create a service file in /etc/systemd/system directory and call it as <jar file name>.service
+
+```
+[Unit]
+Description= <description of the jar file>
+
+[Service]
+User=nobody
+# The configuration file application.properties should be here:
+ExecStart=/usr/bin/java -Xmx256m -jar <location of jar>.jar --spring.profiles.active=dev
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+* Then run the command 
+```
+systemctl daemon-reload 
+```
+followed by 
+```
+systemctl enable ConfigurationServer.service 
+```
