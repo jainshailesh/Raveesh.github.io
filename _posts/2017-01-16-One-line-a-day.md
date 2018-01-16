@@ -6,7 +6,8 @@ date: 2017-01-16
 
 # 2017-01-16
 ***
-> Generic types are not covariant. Arrays are covariant; 2 best practices while implementing Generics
+* Generic types are not covariant. Arrays are covariant.
+* 2 best practices while implementing Generics
 
 ```java
 // Capture Helper Idiom 
