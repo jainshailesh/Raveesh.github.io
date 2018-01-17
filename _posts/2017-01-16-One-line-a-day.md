@@ -36,3 +36,9 @@ Box<String> myBox = BoxImpl.make();
 > -- [Brian Goetz .. Going wild with Generics](https://www.ibm.com/developerworks/library/j-jtp04298/index.html)
 
 # 2017-01-17
+***
+* Maintaining an ownership hierarchy, where each resource owns the resources it acquires and is responsible for releasing them, helps keep the mess from getting out of control.
+
+* For any object that may directly or indirectly own an object that requires explicit release, you must provide lifecycle methods -- close(), release(), destroy(), and the like -- to ensure reliable cleanup.
+
+ -- [Brian Goetz .. Good Housekeeping Practices](https://www.ibm.com/developerworks/java/library/j-jtp03216/index.html?ca=drs-)
