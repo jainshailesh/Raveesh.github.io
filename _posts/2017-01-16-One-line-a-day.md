@@ -42,3 +42,7 @@ Box<String> myBox = BoxImpl.make();
 * For any object that may directly or indirectly own an object that requires explicit release, you must provide lifecycle methods -- close(), release(), destroy(), and the like -- to ensure reliable cleanup.
 
  -- [Brian Goetz .. Good Housekeeping Practices](https://www.ibm.com/developerworks/java/library/j-jtp03216/index.html?ca=drs-)
+
+* Generating tests dynamically in python. Config driven unit tests.
+
+ -- [Dynamically generating Python test cases](https://eli.thegreenplace.net/2014/04/02/dynamically-generating-python-test-cases)
