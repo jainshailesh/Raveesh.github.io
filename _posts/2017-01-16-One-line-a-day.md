@@ -46,3 +46,10 @@ Box<String> myBox = BoxImpl.make();
 * Generating tests dynamically in python. Config driven unit tests.
 
  -- [Dynamically generating Python test cases](https://eli.thegreenplace.net/2014/04/02/dynamically-generating-python-test-cases)
+
+ # 2017-01-21
+ ***
+ * A persistent gambler who raises his bet to a fixed fraction of bankroll when he wins, but does not reduce it when he loses, will eventually and inevitably go broke, even if he has a positive expected value on each bet.
+
+  -- [Random walk](https://en.wikipedia.org/wiki/Random_walk)
+  -- [Gambler's ruin](https://en.wikipedia.org/wiki/Gambler%27s_ruin)
